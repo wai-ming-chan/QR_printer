@@ -47,14 +47,6 @@ def print_image():
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".bmp")  # Save as BMP
     img_pil.save(temp_file.name)
 
-    # Resize the image to new dimensions (e.g., 300x300)
-    new_width, new_height = 300, 300
-    resized_image = img_pil.resize((new_width, new_height), Image.ANTIALIAS)
-
-    # Save the resized image to a temporary PNG file
-    temp_file_png = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-    resized_image.save(temp_file_png.name, format="PNG")
-
     # show the path of the temporary file
     print(temp_file.name)
     
@@ -65,8 +57,7 @@ def print_image():
         win32api.ShellExecute(
             0,
             "print",
-            # temp_file.name,
-            temp_file_png, 
+            temp_file.name,
             f'/d:"{printer_name}"',
             ".",
             0
@@ -91,7 +82,7 @@ def update_line_count(event=None):
 
     # If the last character is a newline, decrement the line count
     text_content = text_box.get("1.0", "end-1c")  # Get all text, excluding the last newline character
-    if text_content.endswith("},\n"):
+    if text_content.endswith("}\n"):
         line_count -= 1
         line_count_label.config(text=f"Lines: {line_count}")
 
