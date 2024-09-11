@@ -30,7 +30,7 @@ def print_image():
     # Create a QR code
     qr = qrcode.QRCode(
         version=1,
-        box_size=10,
+        box_size=2,
         border=1
     )
     qr.add_data(user_input)
@@ -47,6 +47,14 @@ def print_image():
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".bmp")  # Save as BMP
     img_pil.save(temp_file.name)
 
+    # Resize the image to new dimensions (e.g., 300x300)
+    new_width, new_height = 300, 300
+    resized_image = img_pil.resize((new_width, new_height), Image.ANTIALIAS)
+
+    # Save the resized image to a temporary PNG file
+    temp_file_png = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+    resized_image.save(temp_file_png.name, format="PNG")
+
     # show the path of the temporary file
     print(temp_file.name)
     
@@ -57,7 +65,8 @@ def print_image():
         win32api.ShellExecute(
             0,
             "print",
-            temp_file.name,
+            # temp_file.name,
+            temp_file_png, 
             f'/d:"{printer_name}"',
             ".",
             0
@@ -91,7 +100,7 @@ root = tk.Tk()
 root.title("QR Code Printer")
 # root.geometry("980x600")  # Set the window size
 
-common_font = ("Courier", 18)
+common_font = ("Courier", 12)
 
 # Create a frame to hold both the label and text box
 main_frame = tk.Frame(root)
@@ -109,7 +118,7 @@ text_label = tk.Label(
 text_label.grid(row=0, column=0, padx=5, pady=2, sticky="n")
 
 # Create the text box (top-middle), aligned with the label
-text_box = tk.Text(main_frame, height=20, width=50, font=common_font)
+text_box = tk.Text(main_frame, height=20, width=92, font=common_font)
 text_box.grid(row=0, column=1, padx=5, pady=2, sticky="n")
 
 
@@ -133,4 +142,5 @@ line_count_label.grid(row=1, column=0, pady=10)
 text_box.bind("<<Modified>>", update_line_count)
 
 # Start the Tkinter event loop
+root.state('zoomed')
 root.mainloop()
