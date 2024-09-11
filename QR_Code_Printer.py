@@ -31,7 +31,7 @@ def print_image():
     qr = qrcode.QRCode(
         version=1,
         box_size=10,
-        border=2
+        border=1
     )
     qr.add_data(user_input)
     qr.make(fit=True)
