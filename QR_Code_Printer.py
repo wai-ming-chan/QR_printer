@@ -274,7 +274,7 @@ text_box.grid(row=0, column=1, padx=5, pady=2, sticky="n")
 
 # Create a frame for the image panel (top-right)
 image_frame = tk.Frame(root)
-image_frame.grid(row=0, column=2, padx=10, pady=10, sticky="ne")
+image_frame.grid(row=0, column=2, padx=10, pady=10, sticky="nw")
 
 # Create a label for displaying the image (top-right)
 image_panel = tk.Label(image_frame)
@@ -290,11 +290,11 @@ clear_button.grid(row=0, column=0, padx=10)
 
 # Create a button to print (right side of the "Clear" button)
 print_button = tk.Button(button_frame, text="Print Now", command=print_image, width=10, height=2, font=("Helvetica", 24))
-print_button.grid(row=0, column=1, padx=10)
+print_button.grid(row=1, column=0, padx=10)
 
 # Create a label to display the instruction below the buttons
-instruction_label = tk.Label(root, text="Click ALT-F before printing!", font=("Helvetica", 20), fg="red")
-instruction_label.grid(row=2, column=1, columnspan=2, pady=5)
+instruction_label = tk.Label(button_frame, text="Click ALT-F before printing!", font=("Helvetica", 16), fg="red")
+instruction_label.grid(row=2, column=0, columnspan=2, pady=5)
 
 # Create a label to display the line count
 
