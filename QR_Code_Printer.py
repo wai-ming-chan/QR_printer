@@ -214,17 +214,31 @@ def print_image():
     # Close the temporary file
     temp_file.close()
     
+# # Function to count the number of lines in the text box
+# def update_line_count(event=None):
+#     line_count = int(text_box.index('end-1c').split('.')[0])  # Count number of lines
+#     line_count_label.config(text=f"Lines: {line_count}")  # Update the line count label
+#     text_box.edit_modified(False)  # Reset the modified flag
+
+#     # If the last character is a newline, decrement the line count
+#     text_content = text_box.get("1.0", "end-1c")  # Get all text, excluding the last newline character
+#     if text_content.endswith("}\n"):
+#         line_count -= 1
+#         line_count_label.config(text=f"Lines: {line_count}")
+
 # Function to count the number of lines in the text box
 def update_line_count(event=None):
     line_count = int(text_box.index('end-1c').split('.')[0])  # Count number of lines
-    line_count_label.config(text=f"Lines: {line_count}")  # Update the line count label
+    # Update the line count label
+    line_count_label.config(text="Lines: ", fg="black")
+    line_count_value.config(text=f"{line_count}", fg="green")
     text_box.edit_modified(False)  # Reset the modified flag
 
     # If the last character is a newline, decrement the line count
     text_content = text_box.get("1.0", "end-1c")  # Get all text, excluding the last newline character
     if text_content.endswith("}\n"):
         line_count -= 1
-        line_count_label.config(text=f"Lines: {line_count}")
+        line_count_value.config(text=f"{line_count}")
 
 # Function to clear the text box content and remove the QR image
 def clear_textbox():
@@ -283,8 +297,20 @@ instruction_label = tk.Label(root, text="Click ALT-F before printing!", font=("H
 instruction_label.grid(row=2, column=1, columnspan=2, pady=5)
 
 # Create a label to display the line count
-line_count_label = tk.Label(root, text="Lines: 0", font=common_font)
-line_count_label.grid(row=1, column=0, pady=10)
+
+
+# Create a frame to hold both labels for better alignment
+line_frame = tk.Frame(root)
+line_frame.grid(row=1, column=0, pady=10)
+
+# Create a label to display the line count text "Lines: "
+line_count_label = tk.Label(line_frame, text="Lines: ", font=("Helvetica", 20), anchor="e")
+line_count_label.grid(row=0, column=0, sticky="e")  # Align "Lines" label to the right
+
+# Create a label to display the actual line count in green
+line_count_value = tk.Label(line_frame, text="1", font=("Helvetica", 20), fg="green")
+line_count_value.grid(row=0, column=1, sticky="w")  # Align line count value to the left
+
 
 # Bind the <<Modified>> event to track changes in the text box
 text_box.bind("<<Modified>>", update_line_count)
